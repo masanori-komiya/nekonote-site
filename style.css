@@ -1,0 +1,135 @@
+/* 基本設定 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+  color: #333;
+  line-height: 1.8;
+  
+  /* 背景画像の設定 */
+  background: linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.15)), 
+              url('./images/image.jpeg');
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  min-height: 100vh;
+}
+
+/* ヘッダー：文字を白くし、影を強くして背景から浮かせます */
+header {
+  padding: 80px 20px 40px;
+  text-align: center;
+  color: #fff;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.8); /* 影を濃く */
+}
+
+header h1 {
+  font-size: 2.8rem;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+/* メインコンテンツ */
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  padding: 20px 20px 80px;
+  max-width: 900px; /* カードを少し広くして文字密度を下げます */
+  margin: 0 auto;
+}
+
+/* カード部分の視認性向上 */
+section {
+  /* 透明度を0.35から0.6に上げ、白をはっきりさせます */
+  background: rgba(255, 255, 255, 0.7); 
+  
+  /* ぼかしを少し弱めることで、背後の「色」だけを感じさせ、文字の邪魔をしないようにします */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  
+  border-radius: 20px;
+  padding: 50px; /* 余白を広くしてゆとりを持たせる */
+  width: 100%;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+/* 見出し：視認性の高い黒に */
+section h2 {
+  font-size: 1.8rem;
+  margin-bottom: 25px;
+  border-left: 6px solid #333;
+  padding-left: 15px;
+  color: #000;
+  letter-spacing: 1px;
+}
+
+/* 本文：文字を真っ黒にし、少し太くします */
+section p, section li {
+  color: #000;
+  font-weight: 500;
+  font-size: 1.05rem; /* 少し大きく */
+}
+
+section ul {
+  list-style: none;
+  margin: 25px 0;
+}
+
+section ul li {
+  margin-bottom: 15px;
+  position: relative;
+  padding-left: 2rem;
+}
+
+/* チェックマークの色を濃く */
+section ul li::before {
+  content: '✔';
+  position: absolute;
+  left: 0;
+  color: #059644;
+  font-weight: bold;
+}
+
+/* トライアル情報の枠をハッキリさせる */
+.note {
+  background: rgba(255, 255, 255, 0.8);
+  padding: 25px;
+  border-radius: 12px;
+  border: 2px solid #ff9f43; /* 破線から実線にして視認性アップ */
+  margin-top: 30px;
+}
+
+/* LINE登録ボタン */
+.button {
+  display: inline-block;
+  background-color: #06C755;
+  color: #fff !important;
+  text-decoration: none;
+  text-align: center;
+  padding: 18px 60px;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.button:hover {
+  background-color: #05a346;
+  transform: scale(1.02);
+}
+
+/* フッター */
+footer {
+  text-align: center;
+  padding: 40px;
+  color: #fff;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+}
