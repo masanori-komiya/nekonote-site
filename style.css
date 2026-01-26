@@ -253,6 +253,7 @@ footer {
   }
 
   section ul li {
+    font-size: 0.95rem;
     margin-bottom: 10px;
     padding-left: 1.6rem;
   }
