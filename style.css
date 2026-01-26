@@ -170,3 +170,19 @@ footer {
   color: #666;
   margin-top: 0.4rem;
 }
+.price-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.price-list li {
+  margin-bottom: 10px;
+  font-size: 1.05rem;
+}
+
+.old-price {
+  text-decoration-line: line-through;
+  text-decoration-thickness: 1px;
+  margin-right: 6px;
+}
+
