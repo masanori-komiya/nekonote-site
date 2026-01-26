@@ -224,7 +224,7 @@ footer {
   section {
     padding: 22px 18px;
     border-radius: 16px;
-    background: rgba(255, 255, 255, 0.92); /* 文字が読みやすい */
+    background: rgba(117, 233, 161, 0.873); /* 文字が読みやすい */
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
     box-shadow: 0 8px 18px rgba(0,0,0,0.12);
