@@ -16,21 +16,52 @@
   </header>
 
   <main style="max-width: 900px; margin: 0 auto; padding: 16px;">
-    <ul id="list" style="line-height: 1.9;"></ul>
+    <ul id="list" class="post-list"></ul>
   </main>
 
   <script>
+    function esc(s) {
+      return String(s ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+    }
+
     fetch("./posts.json", { cache: "no-store" })
       .then(res => res.json())
-      .then(files => {
+      .then(items => {
         const ul = document.getElementById("list");
-        if (!Array.isArray(files) || files.length === 0) {
+        ul.innerHTML = "";
+
+        if (!Array.isArray(items) || items.length === 0) {
           ul.innerHTML = "<li>まだ記事がありません。</li>";
           return;
         }
-        files.forEach(f => {
+
+        // 旧形式（["2026-02-09.html", ...]）でも一応動くように保険
+        const normalized = (typeof items[0] === "string")
+          ? items.map(f => ({ file: f, date: f.replace(".html",""), title: f.replace(".html",""), thumb: "/images/thumb-default.png" }))
+          : items;
+
+        normalized.forEach(it => {
+          const file = esc(it.file);
+          const title = esc(it.title || it.date || it.file);
+          const date = esc(it.date || (it.file ? it.file.replace(".html","") : ""));
+          const thumb = esc(it.thumb || "/images/thumb-default.png");
+
           const li = document.createElement("li");
-          li.innerHTML = `<a href="./${f}">${f.replace(".html","")}</a>`;
+          li.className = "post-card";
+          li.innerHTML = `
+            <a class="post-card-link" href="./${file}">
+              <img class="post-thumb" src="${thumb}" alt="">
+              <div class="post-meta">
+                <div class="post-title">${title}</div>
+                <div class="post-date">${date}</div>
+              </div>
+            </a>
+          `;
           ul.appendChild(li);
         });
       })

@@ -344,3 +344,62 @@ p {
     text-decoration: underline;
     font-weight: 700;
 }
+
+/* ===== Posts list cards ===== */
+.post-list{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.post-card{
+  margin: 0;
+}
+
+.post-card-link{
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 12px;
+  text-decoration: none;
+  color: inherit;
+  background: rgba(255,255,255,0.75);
+}
+
+.post-card-link:hover{
+  transform: translateY(-1px);
+}
+
+.post-thumb{
+  width: 140px;
+  height: 84px;
+  object-fit: cover;
+  border-radius: 10px;
+  flex: 0 0 auto;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+.post-meta{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+
+.post-title{
+  font-weight: 700;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.post-date{
+  margin-top: 6px;
+  font-size: 0.9em;
+  opacity: 0.7;
+}

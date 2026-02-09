@@ -1,6 +1,7 @@
 import os
 import json
 import datetime
+import re
 from pathlib import Path
 
 from openai import OpenAI
@@ -9,6 +10,44 @@ from openai import OpenAI
 def _jst_today_iso() -> str:
     # GitHub Actions側で TZ=Asia/Tokyo を設定する前提なら date.today() でOK
     return datetime.date.today().isoformat()
+
+
+def _extract_title(html: str) -> str:
+    """
+    HTML文字列の中から <h1>...</h1> を抜いてタイトルとして返す。
+    """
+    m = re.search(r"<h1[^>]*>(.*?)</h1>", html, re.DOTALL | re.IGNORECASE)
+    if not m:
+        return "（無題）"
+    t = re.sub(r"<[^>]+>", "", m.group(1)).strip()  # タグ除去
+    t = re.sub(r"\s+", " ", t)  # 連続空白を潰す
+    return t[:80] if t else "（無題）"
+
+
+def update_posts_json(out_dir: Path) -> None:
+    """
+    posts/ 配下の YYYY-MM-DD.html を収集し、posts.json を
+    [{file,date,title,thumb}, ...] 形式で更新する。
+    """
+    items = []
+    for p in sorted(out_dir.glob("????-??-??.html"), reverse=True):
+        html = p.read_text(encoding="utf-8", errors="ignore")
+        title = _extract_title(html)
+        date = p.stem  # YYYY-MM-DD
+        items.append(
+            {
+                "file": p.name,
+                "date": date,
+                "title": title,
+                "thumb": "/images/thumb-default.png",
+            }
+        )
+
+    (out_dir / "posts.json").write_text(
+        json.dumps(items, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    print(f"Updated: {out_dir / 'posts.json'} ({len(items)} posts)")
 
 
 def main() -> None:
@@ -24,9 +63,10 @@ def main() -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
 
     out_path = out_dir / f"{today}.html"
+
+    # 既に今日の記事があるなら、posts.json更新だけして終了
     if out_path.exists():
         print(f"Already exists: {out_path}")
-        # 既存記事がある場合も posts.json を更新しておく
         update_posts_json(out_dir)
         return
 
@@ -52,16 +92,20 @@ Nekonote Ops Service（定型業務の自動化・代行）や、Cloudflare Page
     )
 
     article_html = (res.output_text or "").strip()
-    if not article_html.startswith("<article"):
-        # 念のためラップ
+
+    # <article> で始まってなければラップ（先頭空白や属性付きにも対応）
+    if not re.match(r"^\s*<article\b", article_html, re.IGNORECASE):
         article_html = f"<article>\n{article_html}\n</article>"
+
+    # SEO用titleに記事タイトルを反映
+    page_title = _extract_title(article_html)
 
     full_html = f"""<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{today} | Nekonote Ops Service</title>
+  <title>{page_title} | Nekonote Ops Service</title>
   <link rel="stylesheet" href="../style.css">
 </head>
 <body>
@@ -80,12 +124,6 @@ Nekonote Ops Service（定型業務の自動化・代行）や、Cloudflare Page
     print(f"Wrote: {out_path}")
 
     update_posts_json(out_dir)
-
-
-def update_posts_json(out_dir: Path) -> None:
-    files = sorted([p.name for p in out_dir.glob("*.html") if p.name != "index.html"], reverse=True)
-    (out_dir / "posts.json").write_text(json.dumps(files, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"Updated: {out_dir / 'posts.json'} ({len(files)} posts)")
 
 
 if __name__ == "__main__":
