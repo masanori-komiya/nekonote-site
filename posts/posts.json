@@ -1,3 +1,8 @@
 [
-  {"file":"2026-02-09.html","date":"2026-02-09","title":"...","thumb":"/images/thumb-default.png"}
+  {
+    "file": "2026-02-09.html",
+    "date": "2026-02-09",
+    "title": "定型業務自動化の実践ガイド：Nekonote Ops ServiceとCloudflare Pages、GitHub Actions、Python連携術",
+    "thumb": "/images/thumb-default.png"
+  }
 ]
