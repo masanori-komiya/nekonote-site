@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>記事一覧 | Nekonote Ops Service</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="hero" style="padding: 24px 16px;">
+    <div class="header-content">
+      <h1 class="service-name">記事一覧</h1>
+      <p class="tagline">毎日更新：自動生成記事</p>
+      <p><a href="../index.html">トップへ戻る</a></p>
+    </div>
+  </header>
+
+  <main style="max-width: 900px; margin: 0 auto; padding: 16px;">
+    <ul id="list" style="line-height: 1.9;"></ul>
+  </main>
+
+  <script>
+    fetch("./posts.json", { cache: "no-store" })
+      .then(res => res.json())
+      .then(files => {
+        const ul = document.getElementById("list");
+        if (!Array.isArray(files) || files.length === 0) {
+          ul.innerHTML = "<li>まだ記事がありません。</li>";
+          return;
+        }
+        files.forEach(f => {
+          const li = document.createElement("li");
+          li.innerHTML = `<a href="./${f}">${f.replace(".html","")}</a>`;
+          ul.appendChild(li);
+        });
+      })
+      .catch(() => {
+        const ul = document.getElementById("list");
+        ul.innerHTML = "<li>記事一覧の読み込みに失敗しました。</li>";
+      });
+  </script>
+</body>
+</html>
