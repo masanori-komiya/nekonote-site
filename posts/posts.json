@@ -1,5 +1,11 @@
 [
   {
+    "file": "2026-02-11.html",
+    "date": "2026-02-11",
+    "title": "Cloudflare PagesとGitHub Actionsで実現するPython自動化：Nekonote Ops Serviceの活用術",
+    "thumb": "/images/thumb-default.png"
+  },
+  {
     "file": "2026-02-10.html",
     "date": "2026-02-10",
     "title": "Nekonote Ops Serviceで効率化する定型業務の自動化 ～Cloudflare PagesとGitHub Actions、Python活用の実践ガ",
