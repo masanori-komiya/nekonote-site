@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>記事一覧 | Nekonote Ops Service</title>
-  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../style.css" />
 </head>
-<body>
+
+<body class="posts-page">
   <header class="hero" style="padding: 24px 16px;">
     <div class="header-content">
       <h1 class="service-name">記事一覧</h1>
@@ -15,11 +16,34 @@
     </div>
   </header>
 
-  <main style="max-width: 900px; margin: 0 auto; padding: 16px;">
-    <ul id="list" class="post-list"></ul>
+  <main class="posts-wrap">
+    <section class="posts-toolbar" aria-label="記事一覧の操作">
+      <div class="posts-search">
+        <label class="posts-label" for="q">検索</label>
+        <input id="q" class="posts-input" type="search"
+               placeholder="タイトル・日付で検索（例：自動化 / 2026-02）"
+               autocomplete="off" />
+      </div>
+
+      <div class="posts-sort">
+        <label class="posts-label" for="sort">並び替え</label>
+        <select id="sort" class="posts-select">
+          <option value="new">新しい順</option>
+          <option value="old">古い順</option>
+          <option value="title">タイトル順</option>
+        </select>
+      </div>
+    </section>
+
+    <section>
+      <div id="empty" class="posts-empty" hidden>該当する記事がありません。</div>
+      <div id="grid" class="posts-grid" aria-live="polite"></div>
+    </section>
   </main>
 
   <script>
+    const DEFAULT_THUMB = "/images/thumb-default.png";
+
     function esc(s) {
       return String(s ?? "")
         .replaceAll("&", "&amp;")
@@ -29,45 +53,110 @@
         .replaceAll("'", "&#39;");
     }
 
+    function normalize(items) {
+      if (!Array.isArray(items) || items.length === 0) return [];
+      if (typeof items[0] === "string") {
+        // 旧形式（["2026-02-09.html", ...]）保険
+        return items.map(f => ({
+          file: f,
+          date: String(f).replace(".html", ""),
+          title: String(f).replace(".html", ""),
+          thumb: DEFAULT_THUMB
+        }));
+      }
+      return items.map(it => ({
+        file: it.file,
+        date: it.date || (it.file ? String(it.file).replace(".html", "") : ""),
+        title: it.title || it.date || it.file || "",
+        thumb: it.thumb || DEFAULT_THUMB
+      }));
+    }
+
+    function sortItems(items, mode) {
+      const copy = items.slice();
+      if (mode === "old" || mode === "new") {
+        copy.sort((a, b) => {
+          const ad = (a.date || "").replaceAll("-", "");
+          const bd = (b.date || "").replaceAll("-", "");
+          return mode === "new" ? (bd.localeCompare(ad)) : (ad.localeCompare(bd));
+        });
+        return copy;
+      }
+      if (mode === "title") {
+        copy.sort((a, b) => (a.title || "").localeCompare((b.title || ""), "ja"));
+        return copy;
+      }
+      return copy;
+    }
+
+    function matches(it, q) {
+      if (!q) return true;
+      const hay = ((it.title || "") + " " + (it.date || "") + " " + (it.file || "")).toLowerCase();
+      return hay.includes(q.toLowerCase());
+    }
+
+    function render(items) {
+      const q = document.getElementById("q").value.trim();
+      const sortMode = document.getElementById("sort").value;
+
+      const filtered = sortItems(items.filter(it => matches(it, q)), sortMode);
+
+      const grid = document.getElementById("grid");
+      const empty = document.getElementById("empty");
+      grid.innerHTML = "";
+
+      if (filtered.length === 0) {
+        empty.hidden = false;
+        return;
+      }
+      empty.hidden = true;
+
+      for (const it of filtered) {
+        const file = esc(it.file || "");
+        const title = esc(it.title || it.date || it.file || "");
+        const date = esc(it.date || "");
+        const thumb = esc(it.thumb || DEFAULT_THUMB);
+
+        const a = document.createElement("a");
+        a.className = "post-card";
+        a.href = "./" + file;
+
+        a.innerHTML = `
+          <div class="post-thumb">
+            <img loading="lazy" src="${thumb}" alt="" />
+            <span class="post-date-badge">${date}</span>
+          </div>
+          <div class="post-body">
+            <h2 class="post-title">${title}</h2>
+          </div>
+        `;
+
+        const img = a.querySelector("img");
+        img.addEventListener("error", () => { img.src = DEFAULT_THUMB; });
+
+        grid.appendChild(a);
+      }
+    }
+
+    let ALL = [];
+
+    function wire() {
+      const q = document.getElementById("q");
+      const sort = document.getElementById("sort");
+      q.addEventListener("input", () => render(ALL));
+      sort.addEventListener("change", () => render(ALL));
+    }
+
     fetch("./posts.json", { cache: "no-store" })
       .then(res => res.json())
       .then(items => {
-        const ul = document.getElementById("list");
-        ul.innerHTML = "";
-
-        if (!Array.isArray(items) || items.length === 0) {
-          ul.innerHTML = "<li>まだ記事がありません。</li>";
-          return;
-        }
-
-        // 旧形式（["2026-02-09.html", ...]）でも一応動くように保険
-        const normalized = (typeof items[0] === "string")
-          ? items.map(f => ({ file: f, date: f.replace(".html",""), title: f.replace(".html",""), thumb: "/images/thumb-default.png" }))
-          : items;
-
-        normalized.forEach(it => {
-          const file = esc(it.file);
-          const title = esc(it.title || it.date || it.file);
-          const date = esc(it.date || (it.file ? it.file.replace(".html","") : ""));
-          const thumb = esc(it.thumb || "/images/thumb-default.png");
-
-          const li = document.createElement("li");
-          li.className = "post-card";
-          li.innerHTML = `
-            <a class="post-card-link" href="./${file}">
-              <img class="post-thumb" src="${thumb}" alt="">
-              <div class="post-meta">
-                <div class="post-title">${title}</div>
-                <div class="post-date">${date}</div>
-              </div>
-            </a>
-          `;
-          ul.appendChild(li);
-        });
+        ALL = normalize(items);
+        wire();
+        render(ALL);
       })
       .catch(() => {
-        const ul = document.getElementById("list");
-        ul.innerHTML = "<li>記事一覧の読み込みに失敗しました。</li>";
+        const grid = document.getElementById("grid");
+        grid.innerHTML = '<div class="posts-empty">記事一覧の読み込みに失敗しました。</div>';
       });
   </script>
 </body>
