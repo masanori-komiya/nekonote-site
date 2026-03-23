@@ -1,5 +1,35 @@
 [
   {
+    "file": "2026-03-20.html",
+    "date": "2026-03-20",
+    "title": "PythonでWebスクレイピング入門",
+    "thumb": "/images/thumb-default.png"
+  },
+  {
+    "file": "2026-03-15.html",
+    "date": "2026-03-15",
+    "title": "AIでPDFや画像から文字を読み取る（OCR）入門",
+    "thumb": "/images/thumb-default.png"
+  },
+  {
+    "file": "2026-03-08.html",
+    "date": "2026-03-08",
+    "title": "Pythonで業務を定期実行する方法",
+    "thumb": "/images/thumb-default.png"
+  },
+  {
+    "file": "2026-03-01.html",
+    "date": "2026-03-01",
+    "title": "ChatGPT APIをPythonで使う入門ガイド",
+    "thumb": "/images/thumb-default.png"
+  },
+  {
+    "file": "2026-02-20.html",
+    "date": "2026-02-20",
+    "title": "PythonでCSVを自動処理する方法",
+    "thumb": "/images/thumb-default.png"
+  },
+  {
     "file": "2026-02-10.html",
     "date": "2026-02-10",
     "title": "Nekonote Ops Serviceで効率化する定型業務の自動化 ～Cloudflare PagesとGitHub Actions、Python活用の実践ガ",

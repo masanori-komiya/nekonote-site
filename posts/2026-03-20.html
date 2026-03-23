@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PythonでWebスクレイピング入門 | Nekonote Ops Service</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <p style="max-width: 900px; margin: 16px auto; padding: 0 16px;">
+    <a href="./index.html">← 記事一覧へ</a> / <a href="../index.html">トップへ</a>
+  </p>
+
+  <main style="max-width: 900px; margin: 0 auto; padding: 0 16px 32px;">
+<article>
+  <h1>PythonでWebスクレイピング入門</h1>
+
+  <p>「競合他社の価格を毎日チェックしたい」「特定サイトの新着情報を自動で取得したい」——こういった情報収集作業を手作業でやるのは非常に手間です。Pythonのスクレイピングを使えば、Webページから必要な情報を自動で取得できます。</p>
+
+  <h2>基本ライブラリの準備</h2>
+  <pre><code>pip install requests beautifulsoup4
+  </code></pre>
+
+  <h2>基本的なスクレイピングの流れ</h2>
+  <pre><code>import requests
+from bs4 import BeautifulSoup
+
+# ページを取得
+url = "https://example.com/news"
+response = requests.get(url, headers={"User-Agent": "Mozilla/5.0"})
+response.encoding = response.apparent_encoding
+
+# HTMLを解析
+soup = BeautifulSoup(response.text, "html.parser")
+
+# タイトル一覧を取得
+titles = soup.select("h2.article-title")
+for title in titles:
+    print(title.get_text(strip=True))
+  </code></pre>
+
+  <h2>取得したデータをCSVに保存</h2>
+  <pre><code>import csv
+
+items = []
+for article in soup.select("div.article"):
+    title = article.select_one("h2").get_text(strip=True)
+    date = article.select_one("time").get_text(strip=True)
+    items.append({"タイトル": title, "日付": date})
+
+with open("news.csv", "w", newline="", encoding="utf-8") as f:
+    writer = csv.DictWriter(f, fieldnames=["タイトル", "日付"])
+    writer.writeheader()
+    writer.writerows(items)
+  </code></pre>
+
+  <h2>注意点</h2>
+  <ul>
+    <li><strong>利用規約の確認:</strong> スクレイピングを禁止しているサイトもあります。robots.txtや利用規約を事前に確認してください。</li>
+    <li><strong>アクセス頻度:</strong> 短時間に大量のリクエストを送るとサーバーに負荷をかけます。<code>time.sleep()</code> で間隔を空けましょう。</li>
+    <li><strong>JavaScriptページへの対応:</strong> JS描画が必要なページにはSeleniumやPlaywrightを使います。</li>
+  </ul>
+
+  <h2>定期実行との組み合わせ</h2>
+  <p>スクレイピングスクリプトをGitHub Actionsや定期実行ツールと組み合わせることで、毎日自動で情報収集→CSV保存→通知、というフローを無人で回せます。</p>
+
+  <h2>まとめ</h2>
+  <p>Webスクレイピングは情報収集の自動化において非常に強力な手法です。requests＋BeautifulSoupの組み合わせはシンプルで学習コストも低く、多くのサイトに対応できます。毎日手動でチェックしているWebページがあれば、まず自動化を検討してみてください。</p>
+</article>
+  </main>
+</body>
+</html>
