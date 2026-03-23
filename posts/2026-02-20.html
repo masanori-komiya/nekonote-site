@@ -7,19 +7,24 @@
   <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-  <p style="max-width: 900px; margin: 16px auto; padding: 0 16px;">
+
+  <header class="article-header">
+    <a href="../index.html">Nekonote Ops Service</a>
+  </header>
+
+  <p class="article-nav">
     <a href="./index.html">← 記事一覧へ</a> / <a href="../index.html">トップへ</a>
   </p>
 
-  <main style="max-width: 900px; margin: 0 auto; padding: 0 16px 32px;">
-<article>
-  <h1>PythonでCSVを自動処理する方法</h1>
+  <main class="article-body">
+    <article>
+      <h1>PythonでCSVを自動処理する方法</h1>
 
-  <p>業務でCSVファイルを扱う機会は多いですが、毎回手作業で開いて整理するのは時間のムダです。Pythonを使えば、CSVの読み込み・加工・出力をすべて自動化できます。この記事では、実務でよく使うパターンを紹介します。</p>
+      <p>業務でCSVファイルを扱う機会は多いですが、毎回手作業で開いて整理するのは時間のムダです。Pythonを使えば、CSVの読み込み・加工・出力をすべて自動化できます。この記事では、実務でよく使うパターンを紹介します。</p>
 
-  <h2>基本の読み込みと書き出し</h2>
-  <p>Pythonの標準ライブラリ <code>csv</code> モジュールを使えば、インストール不要でCSVを扱えます。</p>
-  <pre><code>import csv
+      <h2>基本の読み込みと書き出し</h2>
+      <p>Pythonの標準ライブラリ <code>csv</code> モジュールを使えば、インストール不要でCSVを扱えます。</p>
+      <pre><code>import csv
 
 # 読み込み
 with open('input.csv', newline='', encoding='utf-8') as f:
@@ -34,12 +39,11 @@ for row in rows:
 with open('output.csv', 'w', newline='', encoding='utf-8') as f:
     writer = csv.DictWriter(f, fieldnames=rows[0].keys())
     writer.writeheader()
-    writer.writerows(rows)
-  </code></pre>
+    writer.writerows(rows)</code></pre>
 
-  <h2>pandasを使った応用例</h2>
-  <p>より複雑な処理には <code>pandas</code> ライブラリが便利です。複数ファイルの結合やフィルタリングもシンプルに書けます。</p>
-  <pre><code>import pandas as pd
+      <h2>pandasを使った応用例</h2>
+      <p>より複雑な処理には <code>pandas</code> ライブラリが便利です。複数ファイルの結合やフィルタリングもシンプルに書けます。</p>
+      <pre><code>import pandas as pd
 
 # 複数CSVを結合
 df1 = pd.read_csv('data_jan.csv')
@@ -51,15 +55,24 @@ df_filtered = df[df['売上'] > 10000]
 
 # 集計
 summary = df_filtered.groupby('担当者')['売上'].sum()
-summary.to_csv('summary.csv', encoding='utf-8')
-  </code></pre>
+summary.to_csv('summary.csv', encoding='utf-8')</code></pre>
 
-  <h2>定期実行と組み合わせる</h2>
-  <p>このスクリプトをスケジューラーやGitHub Actionsと組み合わせれば、毎日自動で集計レポートを生成できます。手作業ゼロで最新データを常に確認できる環境が作れます。</p>
+      <h2>定期実行と組み合わせる</h2>
+      <p>このスクリプトをスケジューラーやGitHub Actionsと組み合わせれば、毎日自動で集計レポートを生成できます。手作業ゼロで最新データを常に確認できる環境が作れます。</p>
 
-  <h2>まとめ</h2>
-  <p>PythonのCSV処理は、標準ライブラリだけでも十分実用的です。繰り返し発生するデータ整理作業は、一度スクリプト化してしまえば以降はボタン一つで完了します。業務効率化の第一歩として、ぜひ試してみてください。</p>
-</article>
+      <h2>まとめ</h2>
+      <p>PythonのCSV処理は、標準ライブラリだけでも十分実用的です。繰り返し発生するデータ整理作業は、一度スクリプト化してしまえば以降はボタン一つで完了します。業務効率化の第一歩として、ぜひ試してみてください。</p>
+    </article>
   </main>
+
+  <footer class="site-footer">
+    <div class="footer-links">
+      <a class="footer-link" href="../commercial.html">特定商取引法に基づく表記</a>
+      <span class="footer-sep">｜</span>
+      <a class="footer-link" href="../index.html">トップへ</a>
+    </div>
+    <div class="footer-copy">© Nekonote Ops Service</div>
+  </footer>
+
 </body>
 </html>

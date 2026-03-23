@@ -7,21 +7,25 @@
   <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-  <p style="max-width: 900px; margin: 16px auto; padding: 0 16px;">
+
+  <header class="article-header">
+    <a href="../index.html">Nekonote Ops Service</a>
+  </header>
+
+  <p class="article-nav">
     <a href="./index.html">← 記事一覧へ</a> / <a href="../index.html">トップへ</a>
   </p>
 
-  <main style="max-width: 900px; margin: 0 auto; padding: 0 16px 32px;">
-<article>
-  <h1>Pythonで業務を定期実行する方法</h1>
+  <main class="article-body">
+    <article>
+      <h1>Pythonで業務を定期実行する方法</h1>
 
-  <p>「毎朝9時に売上データを集計したい」「毎週月曜日にレポートをメールしたい」——こういった定期実行の仕組みは、Pythonといくつかのツールを組み合わせることで簡単に構築できます。</p>
+      <p>「毎朝9時に売上データを集計したい」「毎週月曜日にレポートをメールしたい」——こういった定期実行の仕組みは、Pythonといくつかのツールを組み合わせることで簡単に構築できます。</p>
 
-  <h2>方法1：scheduleライブラリを使う</h2>
-  <p>Pythonスクリプト内でスケジューリングするシンプルな方法です。</p>
-  <pre><code>pip install schedule
-  </code></pre>
-  <pre><code>import schedule
+      <h2>方法1：scheduleライブラリを使う</h2>
+      <p>Pythonスクリプト内でスケジューリングするシンプルな方法です。</p>
+      <pre><code>pip install schedule</code></pre>
+      <pre><code>import schedule
 import time
 
 def daily_report():
@@ -37,13 +41,12 @@ schedule.every().monday.at("08:00").do(weekly_email)
 
 while True:
     schedule.run_pending()
-    time.sleep(60)
-  </code></pre>
-  <p>ただしこの方法はスクリプトを常時起動しておく必要があります。</p>
+    time.sleep(60)</code></pre>
+      <p>ただしこの方法はスクリプトを常時起動しておく必要があります。</p>
 
-  <h2>方法2：GitHub Actionsで定期実行</h2>
-  <p>サーバーが不要で、GitHubのCI/CDを使って定期実行できます。無料枠の範囲内で多くの用途をカバーできます。</p>
-  <pre><code>name: Daily Task
+      <h2>方法2：GitHub Actionsで定期実行</h2>
+      <p>サーバーが不要で、GitHubのCI/CDを使って定期実行できます。無料枠の範囲内で多くの用途をカバーできます。</p>
+      <pre><code>name: Daily Task
 
 on:
   schedule:
@@ -58,22 +61,30 @@ jobs:
         with:
           python-version: '3.12'
       - run: pip install -r requirements.txt
-      - run: python scripts/daily_task.py
-  </code></pre>
+      - run: python scripts/daily_task.py</code></pre>
 
-  <h2>方法3：Windowsタスクスケジューラ / cron</h2>
-  <p>ローカルPCやサーバーで実行する場合は、OSのスケジューラが利用できます。</p>
-  <ul>
-    <li><strong>Windows:</strong> タスクスケジューラでPythonスクリプトのパスを登録</li>
-    <li><strong>Linux/Mac:</strong> <code>crontab -e</code> でcronジョブを設定</li>
-  </ul>
-  <pre><code># 毎日午前9時に実行（cron設定例）
-0 9 * * * /usr/bin/python3 /home/user/scripts/task.py
-  </code></pre>
+      <h2>方法3：Windowsタスクスケジューラ / cron</h2>
+      <p>ローカルPCやサーバーで実行する場合は、OSのスケジューラが利用できます。</p>
+      <ul>
+        <li><strong>Windows:</strong> タスクスケジューラでPythonスクリプトのパスを登録</li>
+        <li><strong>Linux/Mac:</strong> <code>crontab -e</code> でcronジョブを設定</li>
+      </ul>
+      <pre><code># 毎日午前9時に実行（cron設定例）
+0 9 * * * /usr/bin/python3 /home/user/scripts/task.py</code></pre>
 
-  <h2>まとめ</h2>
-  <p>定期実行の仕組みは一度作ってしまえば、あとは完全に自動で動き続けます。用途に合わせてscheduleライブラリ・GitHub Actions・OSのスケジューラを使い分けると効率的です。「毎回手動でやっている作業」があれば、まず定期実行化を検討してみてください。</p>
-</article>
+      <h2>まとめ</h2>
+      <p>定期実行の仕組みは一度作ってしまえば、あとは完全に自動で動き続けます。用途に合わせてscheduleライブラリ・GitHub Actions・OSのスケジューラを使い分けると効率的です。「毎回手動でやっている作業」があれば、まず定期実行化を検討してみてください。</p>
+    </article>
   </main>
+
+  <footer class="site-footer">
+    <div class="footer-links">
+      <a class="footer-link" href="../commercial.html">特定商取引法に基づく表記</a>
+      <span class="footer-sep">｜</span>
+      <a class="footer-link" href="../index.html">トップへ</a>
+    </div>
+    <div class="footer-copy">© Nekonote Ops Service</div>
+  </footer>
+
 </body>
 </html>

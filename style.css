@@ -376,6 +376,111 @@ p {
     font-weight: 700;
 }
 
+/* --- 記事ページ --- */
+.article-header {
+  background-color: var(--main-green);
+  padding: 16px 20px;
+  text-align: center;
+}
+
+.article-header a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.article-header a:hover {
+  opacity: 1;
+}
+
+.article-nav {
+  max-width: 900px;
+  margin: 20px auto 0;
+  padding: 0 20px;
+  font-size: 0.9rem;
+}
+
+.article-nav a {
+  color: var(--main-green);
+  text-decoration: none;
+}
+
+.article-nav a:hover {
+  text-decoration: underline;
+}
+
+.article-body {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 20px 56px;
+}
+
+.article-body h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.4;
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 3px solid var(--main-green);
+}
+
+.article-body h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--main-green);
+  margin: 40px 0 14px;
+  padding-left: 12px;
+  border-left: 4px solid var(--main-green);
+}
+
+.article-body h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 24px 0 10px;
+  color: #444;
+}
+
+.article-body ul,
+.article-body ol {
+  padding-left: 24px;
+  margin-bottom: 1.4em;
+}
+
+.article-body li {
+  margin-bottom: 8px;
+}
+
+.article-body pre {
+  background: #1e1e1e;
+  color: #d4d4d4;
+  padding: 20px 24px;
+  border-radius: 10px;
+  overflow-x: auto;
+  margin: 12px 0 24px;
+  font-size: 0.88rem;
+  line-height: 1.7;
+  border-left: 4px solid var(--main-green);
+}
+
+.article-body pre code {
+  background: none;
+  color: inherit;
+  padding: 0;
+  font-size: inherit;
+  font-family: 'Fira Code', 'Consolas', 'Monaco', monospace;
+}
+
+.article-body code {
+  background: #f0f0f0;
+  color: #c7254e;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.88em;
+  font-family: 'Fira Code', 'Consolas', 'Monaco', monospace;
+}
+
 /* ===== Posts list cards ===== */
 .post-list{
   list-style: none;
