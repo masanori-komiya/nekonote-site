@@ -60,6 +60,34 @@ body {
     margin-bottom: 20px;
 }
 
+.hero-price-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid #fff;
+    border-radius: 30px;
+    padding: 6px 22px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-top: 4px;
+    letter-spacing: 0.04em;
+}
+
+.plan-price-callout {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--main-green);
+    margin: 1.2rem 0 0.4rem;
+}
+
+.plan-price-callout small {
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: #555;
+    display: block;
+    margin-top: 4px;
+}
+
 .wave-container {
     position: absolute;
     bottom: -1px;
