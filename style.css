@@ -116,8 +116,9 @@ p {
 
 /* --- Aboutセクション --- */
 .about-lead {
-    font-size: 1.1rem;
+    font-size: 1.22rem;
     font-weight: 700;
+    line-height: 1.9;
     text-align: center;
     margin-bottom: 20px;
     color: var(--main-green);
@@ -126,26 +127,6 @@ p {
 .about-desc {
     max-width: 600px;
     margin: 0 auto 40px;
-    text-align: center;
-}
-
-.philosophy-box {
-    max-width: 600px;
-    margin: 0 auto 32px;
-    padding: 24px 28px;
-    border-radius: 18px;
-    background-color: var(--bg-light);
-}
-
-.philosophy-title {
-    margin-bottom: 10px;
-    text-align: center;
-    font-weight: 700;
-    color: var(--main-green);
-}
-
-.philosophy-desc {
-    margin-bottom: 0;
     text-align: center;
 }
 
@@ -182,12 +163,11 @@ p {
 /* --- 点線ボックス --- */
 .highlight-box {
     border: 2px solid var(--main-green);
-    border-radius: 15px;
+    border-radius: 20px;
     padding: 30px;
     text-align: center;
     margin: 40px auto 0;
     background-color: #fff;
-    max-width: 600px;
     box-shadow: 0 4px 15px rgba(0, 199, 140, 0.15);
 }
 
