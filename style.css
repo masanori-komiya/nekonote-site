@@ -129,6 +129,26 @@ p {
     text-align: center;
 }
 
+.philosophy-box {
+    max-width: 600px;
+    margin: 0 auto 32px;
+    padding: 24px 28px;
+    border-radius: 18px;
+    background-color: var(--bg-light);
+}
+
+.philosophy-title {
+    margin-bottom: 10px;
+    text-align: center;
+    font-weight: 700;
+    color: var(--main-green);
+}
+
+.philosophy-desc {
+    margin-bottom: 0;
+    text-align: center;
+}
+
 /* --- サービスリスト --- */
 .service-list-container {
     background-color: var(--bg-light);
